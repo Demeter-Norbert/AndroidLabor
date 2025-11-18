@@ -1,0 +1,20 @@
+package com.example.lab4.model
+
+data class User(
+    val id: String,
+    val email: String,
+    val name: String
+)
+data class AuthRequest(
+    val email: String,
+    val password: String
+)
+data class Tokens(
+    val accessToken: String,
+    val refreshToken: String
+)
+data class AuthResponse(
+    val user: User,
+    val tokens: Tokens
+
+)
