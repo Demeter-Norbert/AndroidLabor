@@ -53,3 +53,22 @@ data class ParticipantDto(
     val email: String,
     val profileImage: String? = null
 )
+
+data class CreateHabitRequest(
+    val name: String,
+    val description: String,
+    val categoryId: Long,
+    val goal: String
+)
+
+data class CreateScheduleRequest(
+    val habitId: Long,
+    val start_time: String,
+    val end_time: String,
+    val duration_minutes: Int,
+    val repeatPattern: String = "daily",
+    val repeatDays: Int = 30,
+    val is_custom: Boolean = true,
+    val participantIds: List<Long> = emptyList(),
+    val notes: String
+)

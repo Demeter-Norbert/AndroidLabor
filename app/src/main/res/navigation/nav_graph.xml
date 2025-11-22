@@ -14,7 +14,36 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createScheduleFragment"
+            app:destination="@id/createScheduleFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createScheduleFragment"
+        android:name="com.example.lab4.ui.schedule.CreateScheduleFragment"
+        android:label="Create Schedule"
+        tools:layout="@layout/fragment_create_schedule">
+
+        <action
+            android:id="@+id/action_createScheduleFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+
+        <action
+            android:id="@+id/action_createScheduleFragment_to_addHabitFragment"
+            app:destination="@id/addHabitFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addHabitFragment"
+        android:name="com.example.lab4.ui.habit.AddHabitFragment"
+        android:label="New Habit"
+        tools:layout="@layout/fragment_add_habit">
+    </fragment>
+
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.lab4.ui.auth.LoginFragment"
@@ -34,4 +63,7 @@
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
+
 </navigation>
+

@@ -20,6 +20,7 @@ import com.example.lab4.R
 import com.example.lab4.databinding.FragmentHomeBinding
 import com.example.lab4.repository.ScheduleRepository
 import java.time.LocalDate
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeViewModelFactory(
     private val context: Context
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: HomeScheduleAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Initialize the ViewModel using the custom factory
+
         val factory = HomeViewModelFactory(requireContext())
         viewModel = ViewModelProvider(this, factory)[HomeViewModel::class.java]
     }
@@ -67,10 +68,14 @@ class HomeFragment : Fragment() {
 
         binding.rvSchedules.addItemDecoration(DividerItemDecoration(requireContext
             (), LinearLayoutManager.VERTICAL))
-        // Fetch today's schedules (format YYYY-MM-DD)
         val today = try { LocalDate.now().toString() } catch (_:
                                                               Exception) { "2025-10-26" }
         viewModel.getScheduleByDay(today)
+
+        val fab = binding.root.findViewById<FloatingActionButton>(R.id.fabAddHabit)
+        fab.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_createScheduleFragment)
+        }
     }
     private fun setupObservers() {
         viewModel.schedules.observe(viewLifecycleOwner) { schedules ->
@@ -82,7 +87,6 @@ class HomeFragment : Fragment() {
                 binding.tvEmpty.visibility = View.VISIBLE
             }
         }
-        //viewModel.isLoading.observe
 
 
 
