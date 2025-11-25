@@ -11,6 +11,11 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import okhttp3.MultipartBody
+import com.example.lab4.model.ProfileResponse
+import com.example.lab4.model.UpdateProfileRequest
+import retrofit2.http.PATCH
+import com.example.lab4.model.UpdateScheduleRequest
 
 interface ApiService {
     @POST("/auth/local/signin")
@@ -31,4 +36,26 @@ interface ApiService {
 
     @POST("/schedule/recurring")
     suspend fun createSchedule(@Body request: CreateScheduleRequest): Response<List<ScheduleResponse>>
+
+    @GET("/schedule/{id}")
+    suspend fun getScheduleById(@retrofit2.http.Path("id") id: Long): retrofit2.Response<ScheduleResponse>
+
+    @retrofit2.http.DELETE("/schedule/{id}")
+    suspend fun deleteSchedule(@retrofit2.http.Path("id") id: Long): retrofit2.Response<Unit>
+
+    @GET("/profile")
+    suspend fun getMyProfile(): retrofit2.Response<ProfileResponse>
+
+    @retrofit2.http.Multipart
+    @POST("/profile/upload-profile-image")
+    suspend fun uploadProfileImage(@retrofit2.http.Part image: MultipartBody.Part): retrofit2.Response<ProfileResponse>
+
+    @PATCH("/profile")
+    suspend fun updateProfile(@Body request: UpdateProfileRequest): retrofit2.Response<ProfileResponse>
+
+    @PATCH("/schedule/{id}")
+    suspend fun updateSchedule(
+        @retrofit2.http.Path("id") id: Long,
+        @Body request: UpdateScheduleRequest
+    ): retrofit2.Response<ScheduleResponse>
 }

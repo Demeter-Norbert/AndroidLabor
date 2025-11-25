@@ -17,6 +17,21 @@
         <action
             android:id="@+id/action_homeFragment_to_createScheduleFragment"
             app:destination="@id/createScheduleFragment" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_scheduleDetailFragment"
+            app:destination="@id/scheduleDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/scheduleDetailFragment"
+        android:name="com.example.lab4.ui.schedule.ScheduleDetailFragment"
+        android:label="Schedule Details"
+        tools:layout="@layout/fragment_schedule_detail">
+
+        <argument
+            android:name="scheduleId"
+            app:argType="long" />
     </fragment>
 
     <fragment

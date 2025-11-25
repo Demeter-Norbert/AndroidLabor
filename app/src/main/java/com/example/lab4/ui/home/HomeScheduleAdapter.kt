@@ -9,7 +9,7 @@ import com.example.lab4.model.ScheduleResponse
 import android.util.Log
 import android.view.View
 import com.example.lab4.R
-class HomeScheduleAdapter :
+class HomeScheduleAdapter(private val onItemClick: (Long) -> Unit, private val onItemLongClick: (Long) -> Unit) :
     ListAdapter<ScheduleResponse, HomeScheduleAdapter.ViewHolder>
         (DiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -24,6 +24,15 @@ class HomeScheduleAdapter :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(item.id)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick(item.id)
+            true
+        }
     }
     class ViewHolder(private val binding: ItemHomeScheduleBinding) :
         RecyclerView.ViewHolder(binding.root) {

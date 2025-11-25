@@ -72,3 +72,9 @@ data class CreateScheduleRequest(
     val participantIds: List<Long> = emptyList(),
     val notes: String
 )
+
+data class UpdateScheduleRequest(
+    val notes: String?,
+    val duration_minutes: Int?,
+    val status: String? = "Planned"
+)

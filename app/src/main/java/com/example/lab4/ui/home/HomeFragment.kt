@@ -59,8 +59,15 @@ class HomeFragment : Fragment() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupUi() {
-        // Setup RecyclerView and adapter
-        adapter = HomeScheduleAdapter()
+        adapter = HomeScheduleAdapter(
+            onItemClick = { scheduleId ->
+                val bundle = Bundle().apply { putLong("scheduleId", scheduleId) }
+                findNavController().navigate(R.id.action_homeFragment_to_scheduleDetailFragment, bundle)
+            },
+            onItemLongClick = { scheduleId ->
+                showDeleteConfirmationDialog(scheduleId)
+            }
+        )
         binding.rvSchedules.layoutManager =
             LinearLayoutManager(requireContext())
         binding.rvSchedules.adapter = adapter
@@ -96,7 +103,25 @@ class HomeFragment : Fragment() {
                     viewModel.clearError()
                 }
             }
+
+        viewModel.deleteStatus.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(context, "Schedule deleted", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
+    private fun showDeleteConfirmationDialog(scheduleId: Long) {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Delete Schedule")
+            .setMessage("Are you sure you want to delete this schedule?")
+            .setPositiveButton("Delete") { _, _ ->
+                viewModel.deleteSchedule(scheduleId)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

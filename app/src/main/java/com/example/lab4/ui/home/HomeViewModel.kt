@@ -16,6 +16,8 @@ class HomeViewModel(private val repository: ScheduleRepository) :
     val isLoading: LiveData<Boolean> get() = _isLoading
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
+    private val _deleteStatus = MutableLiveData<Boolean>()
+    val deleteStatus: LiveData<Boolean> = _deleteStatus
     fun getScheduleByDay(day: String) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -30,6 +32,23 @@ class HomeViewModel(private val repository: ScheduleRepository) :
             } finally {
                 _isLoading.value = false
                 Log.d("HomeViewModel", "Loading: ${_isLoading.value}")
+            }
+        }
+    }
+
+    fun deleteSchedule(id: Long) {
+        viewModelScope.launch {
+            try {
+                val response = repository.deleteSchedule(id)
+                if (response.isSuccessful) {
+                    _deleteStatus.value = true
+                    val today = java.time.LocalDate.now().toString()
+                    getScheduleByDay(today)
+                } else {
+                    _errorMessage.value = "Failed to delete: ${response.code()}"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
             }
         }
     }
